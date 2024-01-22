@@ -1,24 +1,30 @@
 /* eslint-disable prettier/prettier */
 
-import { Controller, Post, Body, Get } from '@nestjs/common'; 
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './Dto/signup.dto';
 import { LogInDto } from './Dto/login.dto';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('/signup')
+    @ApiOperation({ summary: 'User registration', description: 'Register a new user' })
+    @ApiBody({ type: SignUpDto })
+    @ApiResponse({ status: 201, description: 'User registered', type: () => ({ token: String }) })
     signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
         return this.authService.signUp(signUpDto);
     }
 
-    @Get('/login')
+    @Post('/login')
+    @ApiOperation({ summary: 'User login', description: 'Authenticate and generate a token for the user' })
+    @ApiBody({ type: LogInDto })
+    @ApiResponse({ status: 200, description: 'User authenticated', type: () => ({ token: String }) })
+    @ApiResponse({ status: 401, description: 'Unauthorized' })
     login(@Body() Logindto: LogInDto): Promise<{ token: string }> {
         return this.authService.login(Logindto);
     }
 }
-
-
-

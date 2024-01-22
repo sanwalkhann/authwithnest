@@ -2,55 +2,59 @@
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ContactService } from './contact.service';
-import { Contact } from 'src/schemas/contact.schema';
+import { Contact } from '../schemas/contact.schema';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('contact')
 export class ContactController {
     constructor(private contactservice: ContactService) { }
 
     @Get()
+    @ApiOperation({ summary: 'Get all contacts', description: 'Retrieve a list of all contacts' })
+    @ApiResponse({ status: 200, description: 'List of all contacts', type: Contact, isArray: true })
     async getAllContacts(): Promise<Contact[]> {
         return this.contactservice.findAll();
     }
 
     @Post('newContact')
-    async createContact(
-        @Body()
-        contact: CreateContactDto,
-    ): Promise<Contact> {
+    @ApiOperation({ summary: 'Create a new contact' })
+    @ApiBody({ type: CreateContactDto })
+    @ApiResponse({ status: 201, description: 'Contact created', type: Contact })
+    async createContact(@Body() contact: CreateContactDto): Promise<Contact> {
         return this.contactservice.create(contact);
     }
 
     @Get(':id')
-    async getContact(
-        @Param('id')
-        id: string
-    ): Promise<Contact> {
+    @ApiOperation({ summary: 'Get contact by ID' })
+    @ApiParam({ name: 'id', description: 'Contact ID' })
+    @ApiResponse({ status: 200, description: 'Contact details', type: Contact })
+    @ApiResponse({ status: 404, description: 'Contact not found' })
+    async getContact(@Param('id') id: string): Promise<Contact> {
         return this.contactservice.findById(id);
     }
 
-
-
     @Put(':id')
+    @ApiOperation({ summary: 'Update contact by ID' })
+    @ApiParam({ name: 'id', description: 'Contact ID' })
+    @ApiBody({ type: UpdateContactDto })
+    @ApiResponse({ status: 200, description: 'Contact updated', type: Contact })
+    @ApiResponse({ status: 404, description: 'Contact not found' })
     async updateContact(
-        @Param('id')
-        id: string,
-        @Body()
-        contact: UpdateContactDto,
+        @Param('id') id: string,
+        @Body() contact: UpdateContactDto,
     ): Promise<Contact> {
         return this.contactservice.updateById(id, contact);
     }
 
-
     @Delete(':id')
-    async deleteContact(
-        @Param('id')
-        id: string
-    ): Promise<Contact> {
-        return this.contactservice.deleteById(id);
+    @ApiOperation({ summary: 'Delete contact by ID' })
+    @ApiParam({ name: 'id', description: 'Contact ID' })
+    @ApiResponse({ status: 204, description: 'Contact deleted' })
+    @ApiResponse({ status: 404, description: 'Contact not found' })
+    async deleteContact(@Param('id') id: string): Promise<void> {
+        await this.contactservice.deleteById(id);
     }
-
-
 }

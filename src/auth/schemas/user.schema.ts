@@ -1,21 +1,23 @@
 /* eslint-disable prettier/prettier */
 
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-
-
+import { ApiProperty } from '@nestjs/swagger';
 
 @Schema({
     timestamps: true,
 })
+export class User {
+    @ApiProperty({ description: 'User name' })
+    @Prop()
+    name: string;
 
-export class User{
+    @ApiProperty({ description: 'User email (must be unique)' })
+    @Prop({ unique: [true, 'Email already exists'] })
+    email: string;
+
+    @ApiProperty({ description: 'User password' })
     @Prop()
-    name:string;
-    @Prop({unique: [true , 'Email already exist']})
-    email:string
-    @Prop()
-    password:string
+    password: string;
 }
 
-
-export const UserSchema = SchemaFactory.createForClass(User)
+export const UserSchema = SchemaFactory.createForClass(User);
