@@ -10,7 +10,7 @@ async function bootstrap() {
 
 
   const config = new DocumentBuilder()
-  .setTitle("Contact Crud With LOgin-Signup Auth")
+  .setTitle("Contact Crud With Login-Signup Auth")
   .setDescription("Api Description")
   .setVersion('1.0')
   .addTag('api')

@@ -21,7 +21,6 @@ export class AuthController {
 
     @Post('/login')
     @ApiOperation({ summary: 'User login', description: 'Authenticate and generate a token for the user' })
-    @ApiBody({ type: LogInDto })
     @ApiResponse({ status: 200, description: 'User authenticated', type: () => ({ token: String }) })
     @ApiResponse({ status: 401, description: 'Unauthorized' })
     login(@Body() Logindto: LogInDto): Promise<{ token: string }> {

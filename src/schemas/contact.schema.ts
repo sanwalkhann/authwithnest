@@ -12,15 +12,12 @@ export enum Category {
     timestamps: true,
 })
 export class Contact {
-    @ApiProperty({ description: 'Contact name' })
     @Prop()
     name: string;
 
-    @ApiProperty({ description: 'Contact number' })
     @Prop()
     number: number;
 
-    @ApiProperty({ description: 'Contact category' })
     @Prop()
     category: Category;
 }
