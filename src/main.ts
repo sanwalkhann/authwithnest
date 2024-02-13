@@ -10,11 +10,11 @@ async function bootstrap() {
 
 
   const config = new DocumentBuilder()
-  .setTitle("Contact Crud With Login-Signup Auth")
-  .setDescription("Api Description")
-  .setVersion('1.0')
-  .addTag('api')
-  .build();
+    .setTitle("Contact Crud With Login-Signup Auth")
+    .setDescription("Api Description")
+    .setVersion('1.0')
+    .addTag('api')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
