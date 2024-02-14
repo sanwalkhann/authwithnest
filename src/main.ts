@@ -10,7 +10,7 @@ async function bootstrap() {
 
 
   const config = new DocumentBuilder()
-    .setTitle("Contact Crud With Login-Signup Auth")
+    .setTitle("Contact Crud in nestjs")
     .setDescription("Api Description")
     .setVersion('1.0')
     .addTag('api')
